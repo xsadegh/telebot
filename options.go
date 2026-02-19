@@ -49,6 +49,13 @@ func Placeholder(text string) *SendOptions {
 	}
 }
 
+// Caption is used to set caption field as a send option.
+func Caption(text string) *SendOptions {
+	return &SendOptions{
+		Caption: text,
+	}
+}
+
 // SendOptions has most complete control over in what way the message
 // must be sent, providing an API-complete set of custom properties
 // and options.
