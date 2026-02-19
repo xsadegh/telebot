@@ -110,6 +110,20 @@ type Btn struct {
 	User            *ReplyRecipient `json:"request_user,omitempty" yaml:"request_user,omitempty"`
 	Chat            *ReplyRecipient `json:"request_chat,omitempty" yaml:"request_chat,omitempty"`
 	CopyText        *CopyTextButton `json:"copy_text,omitempty" yaml:"copy_text,omitempty"`
+	Style           ButtonStyle     `json:"style,omitempty" yaml:"style,omitempty"`
+	EmojiID         string          `json:"icon_custom_emoji_id,omitempty" yaml:"icon_custom_emoji_id,omitempty"`
+}
+
+// WithStyle returns a copy of the button with the given style applied.
+func (t Btn) WithStyle(style ButtonStyle) Btn {
+	t.Style = style
+	return t
+}
+
+// WithEmoji returns a copy of the button with the given custom emoji ID.
+func (t Btn) WithEmoji(emojiID string) Btn {
+	t.EmojiID = emojiID
+	return t
 }
 
 // Row represents an array of buttons, a row.
@@ -353,33 +367,37 @@ func (t *InlineButton) With(data string) *InlineButton {
 	}
 }
 
-func (b Btn) Reply() *ReplyButton {
-	if b.Unique != "" {
+func (t Btn) Reply() *ReplyButton {
+	if t.Unique != "" {
 		return nil
 	}
 
 	return &ReplyButton{
-		Text:     b.Text,
-		Contact:  b.Contact,
-		Location: b.Location,
-		Poll:     b.Poll,
-		User:     b.User,
-		Chat:     b.Chat,
-		WebApp:   b.WebApp,
+		Text:     t.Text,
+		Style:    t.Style,
+		EmojiID:  t.EmojiID,
+		Contact:  t.Contact,
+		Location: t.Location,
+		Poll:     t.Poll,
+		User:     t.User,
+		Chat:     t.Chat,
+		WebApp:   t.WebApp,
 	}
 }
 
-func (b Btn) Inline() *InlineButton {
+func (t Btn) Inline() *InlineButton {
 	return &InlineButton{
-		Unique:          b.Unique,
-		Text:            b.Text,
-		URL:             b.URL,
-		Data:            b.Data,
-		InlineQuery:     b.InlineQuery,
-		InlineQueryChat: b.InlineQueryChat,
-		Login:           b.Login,
-		WebApp:          b.WebApp,
-		CopyText:        b.CopyText,
+		Unique:          t.Unique,
+		Text:            t.Text,
+		URL:             t.URL,
+		Style:           t.Style,
+		EmojiID:         t.EmojiID,
+		Data:            t.Data,
+		InlineQuery:     t.InlineQuery,
+		InlineQueryChat: t.InlineQueryChat,
+		Login:           t.Login,
+		WebApp:          t.WebApp,
+		CopyText:        t.CopyText,
 	}
 }
 
