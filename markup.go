@@ -80,6 +80,20 @@ func (r *ReplyMarkup) copy() *ReplyMarkup {
 	return &cp
 }
 
+// ButtonStyle represents the style of a keyboard button.
+type ButtonStyle = string
+
+const (
+	// ButtonStyleDanger is a red button style.
+	ButtonStyleDanger ButtonStyle = "danger"
+
+	// ButtonStyleSuccess is a green button style.
+	ButtonStyleSuccess ButtonStyle = "success"
+
+	// ButtonStylePrimary is a blue button style.
+	ButtonStylePrimary ButtonStyle = "primary"
+)
+
 // Btn is a constructor button, which will later become either a reply, or an inline button.
 type Btn struct {
 	Unique          string          `json:"unique,omitempty" yaml:"unique,omitempty"`
@@ -220,9 +234,9 @@ func (r *ReplyMarkup) CopyText(text, copyText string) Btn {
 // Set either Contact or Location to true in order to request
 // sensitive info, such as user's phone number or current location.
 type ReplyButton struct {
-	Text    string `json:"text" yaml:"text"`
-	Style   string `json:"style,omitempty" yaml:"style,omitempty"`
-	EmojiID string `json:"icon_custom_emoji_id,omitempty" yaml:"icon_custom_emoji_id,omitempty"`
+	Text    string      `json:"text" yaml:"text"`
+	Style   ButtonStyle `json:"style,omitempty" yaml:"style,omitempty"`
+	EmojiID string      `json:"icon_custom_emoji_id,omitempty" yaml:"icon_custom_emoji_id,omitempty"`
 
 	Contact  bool            `json:"request_contact,omitempty" yaml:"request_contact,omitempty"`
 	Location bool            `json:"request_location,omitempty" yaml:"request_location,omitempty"`
@@ -296,7 +310,7 @@ type InlineButton struct {
 
 	Text                  string             `json:"text" yaml:"text"`
 	URL                   string             `json:"url,omitempty" yaml:"url,omitempty"`
-	Style                 string             `json:"style,omitempty" yaml:"style,omitempty"`
+	Style                 ButtonStyle        `json:"style,omitempty" yaml:"style,omitempty"`
 	Data                  string             `json:"callback_data,omitempty" yaml:"callback_data,omitempty"`
 	EmojiID               string             `json:"icon_custom_emoji_id,omitempty" yaml:"icon_custom_emoji_id,omitempty"`
 	InlineQuery           string             `json:"switch_inline_query,omitempty" yaml:"switch_inline_query,omitempty"`
