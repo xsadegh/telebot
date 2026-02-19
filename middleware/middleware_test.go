@@ -1,0 +1,30 @@
+package middleware
+
+import (
+	"testing"
+
+	"go.sadegh.io/telebot/internal/assert"
+	"go.sadegh.io/telebot/internal/require"
+
+	tele "go.sadegh.io/telebot"
+)
+
+var b, _ = tele.NewBot(tele.Settings{Offline: true})
+
+func TestRecover(t *testing.T) {
+	onError := func(err error, c tele.Context) {
+		require.Error(t, err, "recover test")
+	}
+
+	h := func(c tele.Context) error {
+		panic("recover test")
+	}
+
+	assert.Panics(t, func() {
+		h(nil)
+	})
+
+	assert.NotPanics(t, func() {
+		Recover(onError)(h)(nil)
+	})
+}
